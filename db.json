@@ -1,0 +1,52 @@
+{
+  "subjects": [
+    {
+      "id": 1,
+      "type": "Chemistry",
+      "subjectName": "Foobar23",
+      "lectionCount": "15",
+      "labCount": "17",
+      "isCourseProject": "on",
+      "lector": "ewfeeufhuefhuefw",
+      "faculty": "refgreyfgreyfe"
+    },
+    {
+      "id": 2,
+      "type": "Economics",
+      "subjectName": "RABOTAET",
+      "lectionCount": "19",
+      "labCount": "16",
+      "isCourseProject": "on",
+      "controlType": "ergferhuieg",
+      "listenersCount": "19"
+    },
+    {
+      "id": 3,
+      "type": "Subject",
+      "subjectName": "rjgjiugeiuiuig2222",
+      "lectionCount": "18",
+      "labCount": "19",
+      "isCourseProject": "on"
+    },
+    {
+      "id": 4,
+      "type": "Chemistry",
+      "subjectName": "Pidor",
+      "lectionCount": "13",
+      "labCount": "17",
+      "isCourseProject": "da",
+      "lector": "ewkfhewifheufhuewfhw",
+      "faculty": "ewjkfejfbejfbewhjfw"
+    },
+    {
+      "id": 5,
+      "type": "Economics",
+      "subjectName": "Foobarerferfe",
+      "lectionCount": "13",
+      "labCount": "14",
+      "isCourseProject": "ewfewfewf",
+      "controlType": "ewfewfw",
+      "listenersCount": "3"
+    }
+  ]
+}

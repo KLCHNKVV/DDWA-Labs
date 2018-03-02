@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+  <title>Subject</title>
+</head>
+<body onload="loadInfoCurrentSubject()">
+  <a href="index.html" id="backButton">Back</a>
+  <br /><br />
+  <table id="subject-table" border="1">    
+    <tbody id="subject-table-body">
+        <td>Subject Name</td>
+        <td id="subjectName"></td>
+      </tr>
+      <tr>
+        <td>Type</td>
+        <td id="type"></td>
+      </tr>
+      <tr>
+        <td>Lection Count</td>
+        <td id="lectionCount"></td>
+      </tr>
+      <tr>
+        <td>Lab count</td>
+        <td id="labCount"></td>
+      </tr>
+      <tr>
+        <td>Is Course Project</td>
+        <td id="isCourseProject"></td>
+      </tr>
+      <tbody id="economics-fields" hidden>
+        <tr>
+          <td>Control Type</td>
+          <td id="controlType"></td>
+        </tr>
+        <tr>
+          <td>Listeners Count</td>
+          <td id="listenersCount"></td>
+        </tr>     
+      </tbody>
+      <tbody id="chemistry-fields" hidden>
+        <tr>
+          <td>Lector</td>
+          <td id="lector"></td>
+        </tr>
+        <tr>
+          <td>Faculty</td>
+          <td id="faculty"></td>
+        </tr>
+      </tbody>
+    </tbody>
+  </table>
+  <script src="../js/index.js"></script>    
+</body>
+</html>
