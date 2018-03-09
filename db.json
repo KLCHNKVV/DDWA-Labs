@@ -3,8 +3,8 @@
     {
       "id": 1,
       "type": "Chemistry",
-      "subjectName": "Foobar23",
-      "lectionCount": "15",
+      "subjectName": "FoobarFoobar",
+      "lectionCount": "17",
       "labCount": "17",
       "isCourseProject": "on",
       "lector": "ewfeeufhuefhuefw",
@@ -21,32 +21,24 @@
       "listenersCount": "19"
     },
     {
-      "id": 3,
-      "type": "Subject",
-      "subjectName": "rjgjiugeiuiuig2222",
-      "lectionCount": "18",
-      "labCount": "19",
-      "isCourseProject": "on"
-    },
-    {
       "id": 4,
       "type": "Chemistry",
-      "subjectName": "Pidor",
+      "subjectName": "rfgeregrgerge",
       "lectionCount": "13",
-      "labCount": "17",
-      "isCourseProject": "da",
-      "lector": "ewkfhewifheufhuewfhw",
-      "faculty": "ewjkfejfbejfbewhjfw"
+      "labCount": "16",
+      "isCourseProject": "on",
+      "lector": "regerg",
+      "faculty": "ergerge"
     },
     {
       "id": 5,
-      "type": "Economics",
-      "subjectName": "Foobarerferfe",
-      "lectionCount": "13",
-      "labCount": "14",
-      "isCourseProject": "ewfewfewf",
-      "controlType": "ewfewfw",
-      "listenersCount": "3"
+      "type": "Chemistry",
+      "subjectName": "укпкупукпу",
+      "lectionCount": "9",
+      "labCount": "4",
+      "isCourseProject": "on",
+      "lector": "апукпу",
+      "faculty": "укпукпу"
     }
   ]
 }

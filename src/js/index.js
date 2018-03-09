@@ -1,158 +1,133 @@
-function Subject(id, type, subjectName, lectionCount, labCount, isCourseProject)
-{
+class Subject { 
+  constructor(id, type, subjectName, lectionCount, labCount, isCourseProject) {
     this.id = id;
     this.type = type;
     this.subjectName = subjectName;
     this.lectionCount = lectionCount;
     this.labCount = labCount;
     this.isCourseProject = isCourseProject;
+  }
 
-    this.setLectionCount = function(lectionCount)
+    set setLectionCount(lectionCount)
     {
       if (lectionCount<0)
           throw "Lection count can't be above zero";
       this.lectionCount = lectionCount;
     }
 
-      this.getLectionCount = function()
+      get getLectionCount()
       {
           return this.lectionCount;
       }
 
-      this.setIsCourseProject = function(isCourseProject)
+      set setIsCourseProject(isCourseProject)
       {
           this.isCourseProject = isCourseProject;
       }
 
-      this.getIsCourseProject = function()
+      get getIsCourseProject()
       {
           if(this.isCourseProject == "on") return true
           else return false;
       }
 
-      this.setLabCount = function(labCount)
+      set setLabCount(labCount)
       {
           if (labCount<0)
               throw "Lab count can't be above zero"
           this.labCount = labCount;
       }
 
-      this.getLabCount = function()
+      get getLabCount()
       {
           return this.labCount;
       }
 
-      this.setSubjectName = function(subjectName)
+     set setSubjectName(subjectName)
       {
           this.subjectName = subjectName;
       }
 
-      this.getSubjectName = function()
+      get getSubjectName()
       {
           return this.subjectName;
       }
-}
+    }
 
-function Economics(id, type, subjectName, lectionCount, labCount, isCourseProject, controlType, listenersCount)
-{
-    Subject.call(this, id, type, subjectName, lectionCount, labCount, isCourseProject);
+class Economics extends Subject { 
+  constructor(id, type, subjectName, lectionCount, labCount, isCourseProject, controlType, listenersCount) {
+
+    super(id, type, subjectName, lectionCount, labCount, isCourseProject);
 
     this.controlType = controlType;
     this.listenersCount = listenersCount;
+ }
 }
 
-Economics.prototype = Object.create(Subject.prototype);
 
-
-function Chemistry(id, type, subjectName, lectionCount, labCount, isCourseProject, lector, faculty)
-{
-    Subject.call(this, id, type, subjectName, lectionCount, labCount, isCourseProject);
+class Chemistry extends Subject {
+   constructor(id, type, subjectName, lectionCount, labCount, isCourseProject, lector, faculty){
+    super(id, type, subjectName, lectionCount, labCount, isCourseProject);
 
     this.lector = lector;
     this.faculty = faculty;
+ }
 }
 
-Chemistry.prototype = Object.create(Subject.prototype);
 
 ////////////////////////HTMLHelper////////////////////////////////////
 
-function HtmlHelper()
-{
+class HtmlHelper {
+  constructor() {
     this.baseUrl = 'http://localhost:3000';
+  }  
+
+  get(url, query) {    
+    let fullUrl = this.baseUrl + url + (query ? query : "");    
+    return this.request(fullUrl, 'GET', null);
+  }
+
+  post(url, body) {    
+    let fullUrl = this.baseUrl + url;
+    return this.request(fullUrl, 'POST', body);
+  }
+
+  put(url, id, body) {    
+    let fullUrl = this.baseUrl + url + '/' + id;
+    return this.request(fullUrl, 'PUT', body);    
+  }
+
+  delete(url, id) {    
+    let fullUrl = this.baseUrl + url + "/" + id;
+    return this.request(fullUrl, 'DELETE', null);
+  }
+
+  request(url, method, body) {
+    return new Promise((resolve, reject) => {
+      let xhr = new XMLHttpRequest();
+      xhr.open(method, url, true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onreadystatechange = () => {
+        if(xhr.readyState != 4) return;
+
+        if(xhr.status == 200 || xhr.status == 201) {
+          return resolve(JSON.parse(xhr.responseText));          
+        } else {
+          return reject(new Error(xhr.responseText));
+        }
+      }
+      xhr.send(body);
+    });
+  }
 }
-
-HtmlHelper.prototype.get = function (url, query, successClb, failedClb) {
-  var xhr = new XMLHttpRequest();
-  var fullUrl = this.baseUrl + url;
-  xhr.open('GET', fullUrl);
-  xhr.onreadystatechange = function() {
-    if(xhr.readyState != 4) return;
-
-    if(xhr.status == 200) {
-      successClb(JSON.parse(xhr.responseText));
-    } else {
-      failedClb();
-    }
-  }
-  xhr.send();
-}
-  
-  HtmlHelper.prototype.post = function(url, body, successClb, faliedClb) {
-    var xhr = new XMLHttpRequest();
-    var fullUrl = this.baseUrl + url;
-    xhr.open('POST', fullUrl);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function() {
-      if(xhr.readyState != 4) return;
-  
-      if(xhr.status == 201) {
-        successClb();
-      } else {
-        faliedClb();
-      }
-    }
-    xhr.send(body);
-  }
-  
-  HtmlHelper.prototype.put = function(url, id, body, successClb, faliedClb) {
-    var xhr = new XMLHttpRequest();
-    var fullUrl = this.baseUrl + url + '/' + id;
-    xhr.open('PUT', fullUrl);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function() {
-      if(xhr.readyState != 4) return;
-  
-      if(xhr.status == 200) {
-        successClb();
-      } else {
-        faliedClb();
-      }
-    }
-    xhr.send(body);
-  }
-  
-  HtmlHelper.prototype.delete = function(url, id, successClb, faliedClb) {
-    var xhr = new XMLHttpRequest();
-    var fullUrl = this.baseUrl + url + "/" + id;
-    xhr.open('DELETE', fullUrl);
-    xhr.onreadystatechange = function() {
-      if(xhr.readyState != 4) return;
-  
-      if(xhr.status == 200) {
-        successClb();
-      } else {
-        faliedClb();
-      }
-    }
-    xhr.send();
-  }
-
 
   /////////////////////////////Parse////////////////////////////////////////
 
+  this.subjects = [];
+
   function parseJsonToSubject(element)
   {
-      var subject = {};
+      let subject = {};
       if (element.type == 'Economics') 
       {
           subject = new Economics(element.id, element.type, element.subjectName, element.lectionCount, element.labCount, element.isCourseProject, element.controlType, element.listenersCount);
@@ -166,42 +141,51 @@ HtmlHelper.prototype.get = function (url, query, successClb, failedClb) {
           subject = new Subject(element.id, element.type, element.subjectName, element.lectionCount, element.labCount, element.isCourseProject);
       }
       
-      subject.setIsCourseProject(element.isCourseProject);
-      subject.setLectionCount(element.lectionCount);
-      subject.setLabCount(element.labCount);
-      subject.setSubjectName(element.subjectName);
+      subject.setLectionCount = element.lectionCount;
+      subject.setLabCount = element.labCount;
+      subject.setSubjectName = element.subjectName;
       return subject;
+  }
+
+
+  function getQueryParam(param) {
+    var result =  window.location.search.match(
+        new RegExp("(\\?|&)" + param + "(\\[\\])?=([^&]*)")
+    );
+    return result ? result[3] : false;
   }
 
   function createTable(data) 
   {
-    for (var item in data) {
+    subjects = [];
+    for (let item in data) {
       if (data.hasOwnProperty(item)) {
-        var subject = parseJsonToSubject(data[item]);
-        var tr = document.createElement("tr");
+        let subject = parseJsonToSubject(data[item]);
+        subjects.push(subject);
+        let tr = document.createElement("tr");
         tr.setAttribute("data-id", subject.id);
         tr.onclick = function() {
           document.location = "info.html?id=" + this.getAttribute("data-id");
         }
         tr.id = "Subject" + subject.id;
-        var values = [subject.id, subject.type, subject.subjectName, subject.lectionCount, subject.labCount,subject.isCourseProject,];
-        for (var i = 0; i < values.length; i++) {
-          var td = document.createElement("td");
-          var text = document.createTextNode(values[i]);
+        let values = [subject.id, subject.type, subject.subjectName, subject.lectionCount, subject.labCount,subject.isCourseProject,];
+        for (let i = 0; i < values.length; i++) {
+          let td = document.createElement("td");
+          let text = document.createTextNode(values[i]);
           td.appendChild(text);
           tr.appendChild(td);
         }
-        var td = document.createElement("td");
-        var editLink = document.createElement("a");
+        let td = document.createElement("td");
+        let editLink = document.createElement("a");
         editLink.href = 'edit.html?id=' + subject.id;
-        var text = document.createTextNode("Edit ");
+        let text = document.createTextNode("Edit ");
         editLink.appendChild(text);      
         td.appendChild(editLink); 
-        var deleteLink = document.createElement("a");
+        let deleteLink = document.createElement("a");
         deleteLink.setAttribute("data-id", subject.id);
-        var textDelete = document.createTextNode(" Delete");      
+        let textDelete = document.createTextNode(" Delete");      
         deleteLink.onclick = function(ev) {
-          var result = confirm("Are you sure?")
+          let result = confirm("Are you sure?")
           if(result)
             deleteSubject(this.getAttribute("data-id"));
           ev.preventDefault();
@@ -219,9 +203,9 @@ HtmlHelper.prototype.get = function (url, query, successClb, failedClb) {
   
   function getJsonSubjectFromField() {
     document.getElementById("form-subject");
-    var subject = {};
-    var subjectType = document.getElementById("type").value;  
-    var data = {
+    let subject = {};
+    let subjectType = document.getElementById("type").value;  
+    let data = {
       type: subjectType,
       subjectName: document.getElementById("subjectName").value,
       lectionCount: document.getElementById("lectionCount").value,
@@ -258,48 +242,61 @@ HtmlHelper.prototype.get = function (url, query, successClb, failedClb) {
           data.isCourseProject);
         break;  
     }
-    subject.setIsCourseProject(data.isCourseProject);
-    subject.setLectionCount(data.lectionCount);
-    subject.setLabCount(data.labCount);
-    subject.setSubjectName(data.subjectName);
+
+    subject.setLectionCount = data.lectionCount;
+    subject.setLabCount = data.labCount;
+    subject.setSubjectName = data.subjectName;
     return JSON.stringify(subject);
   }
 
   function postSubject() 
   {  
-    var subject = getJsonSubjectFromField();
-    var htmlHelper = new HtmlHelper();
-    htmlHelper.post("/subjects", subject, function() {
-      alert("Success");
-      document.location = "create.html";
-    }, function() {alert("Error");});  
+    const subject = getJsonSubjectFromField();
+    if(subject !== undefined) {
+      const htmlHelper = new HtmlHelper();
+      htmlHelper.post('/subjects', subject)
+        .then(() => {
+          alert("Success");
+          document.location = 'create.html';
+        })
+        .catch(ex => { alert("Error"); console.log(ex) });
+    }
   }
 
   function putSubject() {  
-    var subject = getJsonSubjectFromField();
-    var htmlHelper = new HtmlHelper();
-    var url = new URL(document.location.href);
-    var id = url.searchParams.get("id");
-    htmlHelper.put("/subjects", id, subject, function() {alert("Success");}, function() {alert("Error");});
+    const subject = getJsonSubjectFromField();
+    if(subject !== undefined) {
+      const htmlHelper = new HtmlHelper();
+      let url = new URL(document.location.href);
+      let id = url.searchParams.get("id");
+      htmlHelper.put("/subjects", id, subject)
+        .then(() => alert("Success"))
+        .catch(ex => { alert("Error"); console.log(ex) });
+    }
   }
 
   function deleteSubject(id) {
-    var htmlHelper = new HtmlHelper();
-    htmlHelper.delete("/subjects", id, function() {
-      document.getElementById("Subject"+id).remove();
-      alert("Success");    
-    }, function() {alert("Error");});  
+    const htmlHelper = new HtmlHelper();  
+    htmlHelper.delete("/subjects", id)
+      .then(() => {
+        document.getElementById("Subject"+id).remove();      
+        const subjectID = subjects.indexOf(findSubjectById(id));
+        subjects.splice(subjectID, 1);            
+        alert("Success");    
+      })
+      .catch(ex => { alert("Error"); console.log(ex) });
   }
 
   function loadInfoCurrentSubject() {
-    var htmlHelper = new HtmlHelper();
-    var url = new URL(document.location.href);
-    var id = url.searchParams.get("id");
-    htmlHelper.get("/subjects/"+id, "", fillInfoFields, function() {alert("Error");});
+    const htmlHelper = new HtmlHelper();  
+    const id = getQueryParam('id');
+    htmlHelper.get(`/subjects/${id}`)
+      .then(data => fillInfoFields(data))
+      .catch(ex => { alert("Error"); console.log(ex) });
   }
 
   function fillInfoFields(data) {
-    var subject = parseJsonToSubject(data);
+    const subject = parseJsonToSubject(data);
     if(subject instanceof Economics) {
       document.getElementById("controlType").innerText = subject.controlType;
       document.getElementById("listenersCount").innerText = subject.listenersCount;
@@ -317,15 +314,16 @@ HtmlHelper.prototype.get = function (url, query, successClb, failedClb) {
   }
 
   function loadCurrentSubject() {
-    var htmlHelper = new HtmlHelper();
-    var url = new URL(document.location.href);
-    var id = url.searchParams.get("id");
-    htmlHelper.get("/subjects/"+id, "", fillFormFields, function() {alert("Error");});
+    const htmlHelper = new HtmlHelper();  
+    const id = getQueryParam('id');
+    htmlHelper.get(`/subjects/${id}`)
+      .then(data => fillFormFields(data))
+      .catch(() => alert("Error"));
   }
 
   function fillFormFields(data) 
   {
-    var subject = parseJsonToSubject(data);
+    const subject = parseJsonToSubject(data);
     if(subject instanceof Economics) {
       document.getElementById("controlType").value = subject.controlType;
       document.getElementById("listenersCount").value = subject.listenersCount;
@@ -367,8 +365,45 @@ HtmlHelper.prototype.get = function (url, query, successClb, failedClb) {
   }
   
   function loadIndexPage() {
-    var htmlHelper = new HtmlHelper();
-    htmlHelper.get('/subjects', "", createTable, null);
+    const htmlHelper = new HtmlHelper();
+    htmlHelper.get('/subjects')
+      .then(data => createTable(data))
+      .catch(() => alert("Error"));
+  }
+
+  this.subjectGenerator = function* () 
+  {
+    for(let subject of subjects) {
+      yield subject;
+    }
+  };
+
+
+  function findSubjectById(id) 
+  {
+    const gen = subjectGenerator();
+    let item = gen.next();
+    while(!item.done) {
+      if(item.value.id === id) {
+        return item.value;
+      }
+      item = gen.next();
+    }
+  }
+
+  function searchSubjects() {
+    const query = document.getElementById('searchSubjects').value || '';  
+    const gen = subjectGenerator();
+    let item = gen.next();
+    while(!item.done) {
+      if(item.value.subjectName.includes(query) || item.value.lectionCount.toString().includes(query) || 
+        item.value.type.includes(query) || query == '') {
+          document.getElementById(`Subject${item.value.id}`).hidden = false;
+      } else {
+        document.getElementById(`Subject${item.value.id}`).hidden = true;      
+      }
+      item = gen.next();
+    }
   }
 
   function setValidation() {
@@ -387,7 +422,7 @@ HtmlHelper.prototype.get = function (url, query, successClb, failedClb) {
   
   function hideErrorMessages()
   {
-    var idElementErrors = ["subjectName-error", "lectionCount-error", "labCount-error"];
+    let idElementErrors = ["subjectName-error", "lectionCount-error", "labCount-error"];
     idElementErrors.forEach(function (elem) {
       showErrorMessage(elem, true);
     })
